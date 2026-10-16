@@ -14,7 +14,6 @@
   }
   .container { max-width: 1200px; margin: 0 auto; }
 
-  /* HEADER */
   .header { text-align: center; margin-bottom: 22px; position: relative; }
   .header h1 {
     font-family: 'Fredoka One', cursive; font-size: 3rem;
@@ -44,7 +43,6 @@
   .mute-btn:hover { transform: scale(1.1); background: #ffd200; color: #1a1a2e; }
   .mute-btn.muted { background: rgba(255,255,255,0.1); border-color: #666; color: #666; }
 
-  /* TABS */
   .tabs {
     display: flex; gap: 8px; justify-content: center;
     margin-bottom: 22px; flex-wrap: wrap;
@@ -78,7 +76,6 @@
     box-shadow: 0 40px 80px rgba(0,0,0,0.5);
   }
 
-  /* INTRO */
   #tab-intro .intro-stage {
     text-align: center;
     padding: 40px 20px;
@@ -107,7 +104,6 @@
   }
   @keyframes subPulse { from{opacity:0.4;} to{opacity:1;} }
 
-  /* VOCABULARY */
   .scene-wrap {
     position: relative;
     display: block; width: 100%; max-width: 900px;
@@ -307,9 +303,13 @@
     background: #000;
     box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 4px rgba(255,210,0,0.5);
   }
-  .video-wrap video { width: 100%; display: block; }
+  .video-wrap video {
+    width: 100%;
+    display: block;
+    background: #000;
+    min-height: 300px;
+  }
 
-  /* COMIC */
   .magnifier-stage {
     position: relative;
     max-width: 900px; margin: 0 auto;
@@ -371,7 +371,6 @@
     margin: 16px 0 0;
   }
 
-  /* МОДАЛЬНОЕ ОКНО */
   .panel-modal {
     position: fixed; inset: 0;
     background: rgba(15,12,41,0.92);
@@ -445,7 +444,6 @@
   }
   .panel-modal-close:hover { background: #d84315; color: #fff; transform: rotate(90deg); }
 
-  /* CARD STAGE */
   .card-stage {
     position: relative;
     min-height: 460px;
@@ -928,10 +926,9 @@
   <div class="tab-content" id="tab-video">
     <div class="panel">
       <div class="video-wrap">
-        <video controls preload="auto" playsinline style="width:100%;display:block;background:#000;">
+        <video controls preload="metadata" playsinline style="width:100%;display:block;background:#000;min-height:300px;">
           <source src="Story.mp4" type="video/mp4">
           <source src="story.mp4" type="video/mp4">
-          <source src="Story.MP4" type="video/mp4">
           Your browser does not support video.
         </video>
       </div>
@@ -1042,7 +1039,7 @@
 </div>
 
 <script>
-/* ================== ЗВУКИ ================== */
+/* ЗВУКИ */
 class SoundFX {
   constructor() {
     this.ctx = null;
@@ -1321,7 +1318,7 @@ document.getElementById('namesInput').addEventListener('keydown', (e) => {
   });
 })();
 
-/* МОДАЛЬНОЕ ОКНО — ИСПРАВЛЕНА ЛОГИКА ДЛЯ ШИРОКИХ ПАНЕЛЕЙ */
+/* МОДАЛЬНОЕ ОКНО */
 let currentPanel = 1;
 const TOTAL_PANELS = 5;
 const PANEL_COORDS = {
@@ -1354,13 +1351,11 @@ function showPanel(n) {
   const px = c.x * scaleFixX, py = c.y * scaleFixY;
   const pw = c.w * scaleFixX, ph = c.h * scaleFixY;
 
-  /* Точный расчёт доступного места */
   const innerPad = 22 * 2;
   const controlsH = controls ? controls.offsetHeight + 16 : 80;
   const availableW = Math.min(window.innerWidth * 0.96, 1800) - innerPad;
   const availableH = window.innerHeight * 0.95 - controlsH - innerPad - 10;
 
-  /* Масштаб — чтобы панель влезла целиком, без обрезки */
   const scale = Math.min(availableW / pw, availableH / ph);
 
   const dispW = pw * scale, dispH = ph * scale;
@@ -1401,7 +1396,7 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape')     closePanelModal();
 });
 
-/* EXERCISES — КАРТОЧКИ */
+/* EXERCISES */
 const tfData = [
   { text: "The pet thief has got straight black hair.",           answer: "T" },
   { text: "The pet thief has got a red beard.",                   answer: "F" },
@@ -1608,7 +1603,7 @@ function exReset() {
   renderExercise();
 }
 
-/* QUESTIONS — КАРТОЧКИ */
+/* QUESTIONS */
 const questionsData = [
   { q: "What does the pet thief look like?",         ans: "He's got straight black hair, a black beard and a moustache." },
   { q: "What is he wearing?",                        ans: "He's wearing a big dirty hat and an old jacket." },
