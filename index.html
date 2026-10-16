@@ -296,18 +296,21 @@
   }
   .badge .badge-sub { color: #1a1a2e; font-size: 0.95rem; font-weight: 700; margin-top: 4px; }
 
-  /* VIDEO */
+  /* VIDEO — RuTube iframe */
   .video-wrap {
+    position: relative;
     max-width: 900px; margin: 0 auto;
     border-radius: 24px; overflow: hidden;
     background: #000;
     box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 4px rgba(255,210,0,0.5);
+    padding-bottom: 50.625%; /* 16:9 с учётом ширины 900px */
+    height: 0;
   }
-  .video-wrap video {
-    width: 100%;
-    display: block;
-    background: #000;
-    min-height: 300px;
+  .video-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 0;
   }
 
   .magnifier-stage {
@@ -922,15 +925,15 @@
     </div>
   </div>
 
-  <!-- VIDEO -->
+  <!-- VIDEO — RuTube -->
   <div class="tab-content" id="tab-video">
     <div class="panel">
       <div class="video-wrap">
-        <video controls preload="metadata" playsinline style="width:100%;display:block;background:#000;min-height:300px;">
-          <source src="Story.mp4" type="video/mp4">
-          <source src="story.mp4" type="video/mp4">
-          Your browser does not support video.
-        </video>
+        <iframe 
+          src="https://rutube.ru/play/embed/36f7ad044d176fc93b897c6306281132/" 
+          allow="clipboard-write; autoplay; fullscreen; picture-in-picture"
+          allowfullscreen>
+        </iframe>
       </div>
       <p style="text-align:center;color:rgba(255,255,255,0.55);margin-top:18px;font-weight:700;">
         🎬 Watch the story. What happened? Discuss with your teacher.
@@ -1039,7 +1042,6 @@
 </div>
 
 <script>
-/* ЗВУКИ */
 class SoundFX {
   constructor() {
     this.ctx = null;
@@ -1138,7 +1140,6 @@ document.addEventListener('click', () => {
   if (sound.ctx && sound.ctx.state === 'suspended') sound.ctx.resume();
 }, { once: true });
 
-/* MUTE */
 let sirenInterval = null;
 let sirenMuted = false;
 let sirenStarted = false;
@@ -1163,7 +1164,6 @@ function toggleMute() {
   }
 }
 
-/* TABS */
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1174,7 +1174,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-/* INTRO */
 function showMission() {
   if (sirenInterval) { clearInterval(sirenInterval); sirenInterval = null; }
   sound.click();
@@ -1209,7 +1208,6 @@ document.getElementById('namesInput').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') startMission();
 });
 
-/* DRAG & DROP */
 (function(){
   const scene = document.getElementById('scene');
   const bank  = document.getElementById('bank');
@@ -1282,7 +1280,6 @@ document.getElementById('namesInput').addEventListener('keydown', (e) => {
   };
 })();
 
-/* MAGNIFIER */
 (function(){
   const stage = document.getElementById('magnifierStage');
   const img   = document.getElementById('comicImg');
@@ -1318,7 +1315,6 @@ document.getElementById('namesInput').addEventListener('keydown', (e) => {
   });
 })();
 
-/* МОДАЛЬНОЕ ОКНО */
 let currentPanel = 1;
 const TOTAL_PANELS = 5;
 const PANEL_COORDS = {
@@ -1396,7 +1392,6 @@ document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape')     closePanelModal();
 });
 
-/* EXERCISES */
 const tfData = [
   { text: "The pet thief has got straight black hair.",           answer: "T" },
   { text: "The pet thief has got a red beard.",                   answer: "F" },
@@ -1603,7 +1598,6 @@ function exReset() {
   renderExercise();
 }
 
-/* QUESTIONS */
 const questionsData = [
   { q: "What does the pet thief look like?",         ans: "He's got straight black hair, a black beard and a moustache." },
   { q: "What is he wearing?",                        ans: "He's wearing a big dirty hat and an old jacket." },
@@ -1668,7 +1662,6 @@ function qNext() { if (qIndex < questionsData.length) { qIndex++; sound.click();
 function qPrev() { if (qIndex > 0) { qIndex--; sound.click(); renderQuestion(); } }
 function qReset() { qIndex = 0; sound.click(); renderQuestion(); }
 
-/* INIT */
 exResults.tf = tfData.map(() => null);
 exResults.yn = ynData.map(() => null);
 exResults.abc = abcData.map(() => null);
